@@ -1,4 +1,4 @@
-package domain;
+package fr.formation.developer.domain.dtos;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import fr.formation.developer.validation.Checkadult;
 
-public class Developer {
+public class DeveloperCreate {
 
     private String nickname;
     private String lastname;
@@ -16,7 +16,7 @@ public class Developer {
     @Checkadult
     private LocalDate birthDate;
 
-    public Developer() {
+    public DeveloperCreate() {
     }
 
     public String getNickname() {

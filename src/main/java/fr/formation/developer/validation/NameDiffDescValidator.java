@@ -3,7 +3,7 @@ package fr.formation.developer.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import domain.Project;
+import fr.formation.developer.domain.dtos.Project;
 
 //public class UpperCaseValidator1 implements ConstraintValidator<UpperCase1, String> {
 public class NameDiffDescValidator implements ConstraintValidator<NameDiffDesc, Project> {

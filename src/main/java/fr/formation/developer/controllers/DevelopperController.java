@@ -1,9 +1,8 @@
 package fr.formation.developer.controllers;
 
-import java.time.LocalDate;
-
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import domain.Developer;
-import domain.DeveloperUpdate;
+import fr.formation.developer.domain.dtos.DeveloperCreate;
+import fr.formation.developer.domain.dtos.DeveloperUpdate;
+import fr.formation.developer.domain.dtos.DeveloperView;
+import fr.formation.developer.services.DevoloperService;
 
 @RestController
 @RequestMapping("/developers")
@@ -21,27 +22,35 @@ import domain.DeveloperUpdate;
 
 public class DevelopperController {
 
+    private final DevoloperService service;
+
+    public DevelopperController(DevoloperService service) {
+	this.service = service;
+    }
+
     @GetMapping("/{nickname}")
-    public Developer getById1(@PathVariable("nickname") String nickname) {
+    public DeveloperView getById(@PathVariable("nickname") String nickname) {
 	// at first the @GetMapping was performed on the Id (long Id)
 	// and moved to nickname'pseudo that why now we have String
-	Developer developer = new Developer();
-	developer.setLastname("nom1 ");
-	developer.setFirstname("Prenom 1 ");
-	developer.setNickname(nickname);
-	LocalDate date = LocalDate.of(1911, 10, 20);
-	developer.setBirthDate(date);
+//	Developer developer = new Developer();
+//	developer.setLastname("nom1 ");
+//	developer.setFirstname("Prenom 1 ");
+//	developer.setNickname(nickname);
+//	LocalDate date = LocalDate.of(1911, 10, 20);
+//	developer.setBirthDate(date);
 	// changed in order to catch the setbirtDate in a variable
 	// developer.setBirthDate(LocalDate.of(1967, 10, 15));
-	return developer;
+	System.out.println("call in controller");
+	return service.getById(nickname);
+	// return developer;
 
     }
 
     // @PostMapping("/developpers")
     @PostMapping
     // map le json ==> request body
-    public void create1(@Valid @RequestBody Developer developer) {
-
+    public void create(@Valid @RequestBody DeveloperCreate developer) {
+	service.create(developer);
 	System.out.println(developer);
     }
 
@@ -76,7 +85,17 @@ public class DevelopperController {
     @PatchMapping("/{nickname}/birth-date")
     public void updateBirthDate(@PathVariable("nickname") String nickname,
 	    @Valid @RequestBody DeveloperUpdate NewBirthDate) {
+	service.updateBirthDate(nickname, NewBirthDate);
+	System.out.println("Patch birth-date called  in controller");
 	System.out.println("Update birth date of: " + nickname + " with new date : " + NewBirthDate.getBirthDate());
+
+    }
+
+    @DeleteMapping("/{nickname}")
+    public void deleteDeveloper(@PathVariable("nickname") String nickname) {
+	service.deleteDeveloper(nickname);
+	System.out.println("Delete Developer in controller : " + nickname);
+
     }
 
 }

@@ -1,8 +1,8 @@
-package domain;
+package fr.formation.developer.domain.dtos;
 
 import fr.formation.developer.validation.UpperCase;
 
-public class Skill {
+public class SkillCreate {
     @UpperCase
     // @NotNull
     private String name;
@@ -10,7 +10,7 @@ public class Skill {
 
     // constructeur sans argument
 
-    public Skill() {
+    public SkillCreate() {
     }
 
     // initialise name

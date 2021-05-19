@@ -10,26 +10,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import domain.Team;
+import fr.formation.developer.domain.dtos.Team;
+import fr.formation.developer.services.TeamService;
 
 @RestController
 @RequestMapping("/teams")
 public class TeamController {
 
+    private final TeamService service;
+
+    public TeamController(TeamService service) {
+	this.service = service;
+    }
+
     @GetMapping("/{name}")
     public Team getById(@Valid @PathVariable("name") String name) {
+	return service.getById(name);
 
-	Team team = new Team();
-	team.setName("my_team");
-	team.setAgile(true);
-	System.out.println(team);
-	return team;
     }
 
     @PostMapping
 
     public void create(@Valid @RequestBody Team team) {
-
+	service.create(team);
 	System.out.println(team);
     }
 
@@ -37,7 +40,9 @@ public class TeamController {
 
     @DeleteMapping("/{name}")
     public void deleteTeam(@PathVariable("name") String name) {
+	service.deleteTeam(name);
 	System.out.println("Delete Team: " + name);
+
     }
 
 }
